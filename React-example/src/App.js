@@ -259,41 +259,78 @@ function App() {
 */
 
   const recursiveSelect = (topItem) => {
+    console.log("topItem",topItem);
+    let idsToSelect = [];
     if (topItem.items) {
       //select items
-      grid.selectRows(topItem.items.filter(x => x.ProductID !== undefined).map(x => x.ProductID), true);
+      let toSelect = topItem.items.filter(x => x.ProductID !== undefined).map(x => x.ProductID);
+      console.log("toSelect",toSelect);
+      idsToSelect = [...idsToSelect, ...toSelect];
+      //grid.current._instance.selectRows(toSelect, true);
 
-      for (var o = 0; o < topItem.items.length; o++) {
-        recursiveSelect(topItem.items[o])
+      console.log("toSelect", toSelect)
+
+      for (let o = 0; o < topItem.items.length; o++) {
+        idsToSelect = [...idsToSelect, ...recursiveSelect(topItem.items[o])];
       }
 
     }else if (topItem.ProductID){
-      grid.selectRows([topItem.ProductID],true);
+      idsToSelect = [...idsToSelect, ...[topItem.ProductID]];
+      //grid.current._instance.selectRows([topItem.ProductID],true);
     }else if(topItem.length){
-      for (var o = 0; o < topItem.length; o++) {
-        recursiveSelect(topItem[o])
+      for (let o = 0; o < topItem.length; o++) {
+        idsToSelect = [...idsToSelect, ...recursiveSelect(topItem[o])];
       }
     }
-    return;
+    console.log("recursiveIds",idsToSelect)
+    return idsToSelect;
   }
 
 
   const onValueChanged = (args, grid, keys) => {
+    console.log("keys",keys)
+
     if (args.event === undefined) {
       return;
     }
     if (args.value) {
+      let idsToSelect = grid.getSelectedRowKeys();
+      //grid.selectRows(keys.map(x => x.ProductID ? x.ProductID : x.key)); 
+      
       if(keys.length){
-        for (var o = 0; o < keys.length; o++) {
-          recursiveSelect(keys[o])
+        for (let o = 0; o < keys.length; o++) {
+          console.log(o);
+          console.log("keys2",keys)
+          console.log("key",keys[o])
+          idsToSelect = [...idsToSelect, ...recursiveSelect(keys[o])];
         }
 
       }else{
-        recursiveSelect(keys);
+        idsToSelect = [...idsToSelect,...recursiveSelect(keys)];
       }
+      console.log("idsToSelect", idsToSelect)
+      grid.selectRows(idsToSelect);
     }
-    else { grid.deselectRows(keys.map(x => x.ProductID ? x.ProductID : x.key)); }
-    onSelectionChanged();
+    else { 
+      //grid.deselectRows(keys.map(x => x.ProductID ? x.ProductID : x.key)); 
+      let idsToDeselect = [];
+      //grid.selectRows(keys.map(x => x.ProductID ? x.ProductID : x.key)); 
+      
+      if(keys.length){
+        for (let o = 0; o < keys.length; o++) {
+          console.log(o);
+          console.log("keys2",keys)
+          console.log("key",keys[o])
+          idsToDeselect = [...idsToDeselect, ...recursiveSelect(keys[o])];
+        }
+
+      }else{
+        idsToDeselect = [...idsToDeselect,...recursiveSelect(keys)];
+      }
+      console.log("idsToSelect", idsToDeselect)
+      grid.deselectRows(idsToDeselect);
+    }
+   // onSelectionChanged();
   };
 
 
