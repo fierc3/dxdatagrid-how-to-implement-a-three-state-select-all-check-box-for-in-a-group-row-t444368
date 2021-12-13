@@ -5,28 +5,32 @@ let data = [
     "Category": {
         "CategoryName": "Kitchen"
     },
-    "GroupCode": "First"
+    "GroupCode": "First",
+    "ThirdGroup": "ISO"
 }, {
     "ProductID": 2,
     "ProductName": "Spatula",
     "Category": {
         "CategoryName": "Kitchen"
     },
-    "GroupCode": "First"
+    "GroupCode": "First",
+    "ThirdGroup": "ISO"
 }, {
     "ProductID": 3,
     "ProductName": "Wrench",
     "Category": {
         "CategoryName": "HandTool"
     },
-    "GroupCode": "First"
+    "GroupCode": "First",
+    "ThirdGroup": "ISO"
 }, {
     "ProductID": 4,
     "ProductName": "Hammer",
     "Category": {
         "CategoryName": "HandTool"
     },
-    "GroupCode": "First"
+    "GroupCode": "First",
+    "ThirdGroup": "ISO"
 }, 
 {
     "ProductID": 5,
@@ -34,7 +38,8 @@ let data = [
     "Category": {
         "CategoryName": "Computer"
     },
-    "GroupCode": "Second"
+    "GroupCode": "Second",
+    "ThirdGroup": "ISO"
 },
 {
     "ProductID": 6,
@@ -42,7 +47,8 @@ let data = [
     "Category": {
         "CategoryName": "Computer"
     },
-    "GroupCode": "Second"
+    "GroupCode": "Second",
+    "ThirdGroup": "ASO"
 },
 {
     "ProductID": 7,
@@ -50,7 +56,8 @@ let data = [
     "Category": {
         "CategoryName": "Computer"
     },
-    "GroupCode": "Second"
+    "GroupCode": "Second",
+    "ThirdGroup": "ASO"
 },
 {
     "ProductID": 8,
@@ -58,21 +65,24 @@ let data = [
     "Category": {
         "CategoryName": "HandTool"
     },
-    "GroupCode": "First"
+    "GroupCode": "First",
+    "ThirdGroup": "ASO"
 }, {
     "ProductID": 9,
     "ProductName": "Screwdriver",
     "Category": {
         "CategoryName": "HandTool"
     },
-    "GroupCode": "First"
+    "GroupCode": "First",
+    "ThirdGroup": "ASO"
 }, {
     "ProductID": 10,
     "ProductName": "Pliers",
     "Category": {
         "CategoryName": "HandTool"
     },
-    "GroupCode": "First"
+    "GroupCode": "First",
+    "ThirdGroup": "ASO"
 },
 {
     "ProductID": 11,
@@ -80,7 +90,8 @@ let data = [
     "Category": {
         "CategoryName": "Computer"
     },
-    "GroupCode": "First"
+    "GroupCode": "First",
+    "ThirdGroup": "BSO"
 }];
 
 
