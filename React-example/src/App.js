@@ -16,106 +16,6 @@ function App() {
   const [keyExpr] = useState("ProductID")
   const grid = useRef(null);
 
-  const groups = ["Category.CategoryName", "GroupCode"]
-
-
-  const getKeys = function (
-    data,
-    keys,
-    groupedColumnName,
-    groupKey,
-    keyFieldName
-  ) {
-    let groupRow = data.find((i) => {
-      return i.key === groupKey;
-    });
-    if (groupRow) keys = groupRow.items.map((i) => i[keyFieldName]);
-    return keys;
-  };
-
-
-  const getParent = () => {
-
-  };
-
-  const getChildren = (keys, groupKey, keyFieldName) => {
-    let groupRow = data.find((i) => {
-      return i.key === groupKey;
-    });
-
-    if (groupRow) {
-      keys = [...keys, groupRow.items.map((i) => i[keyFieldName])]
-      if (groupRow.items !== undefined) {
-        groupRow.items.foreach(x => {
-          let keyFieldName = x.key ? "key" : "GroupCode";
-          x.remember += x.remember + x.key;
-          console.log("TOREMEBERRRRRRR")
-          keys = [...keys, getChildren(keys, x.key, keyFieldName)]
-        })
-
-      }
-    }
-    //if (groupRow) keys = groupRow.items.map((i) => i[keyFieldName]);
-
-
-    return keys;
-  }
-
-
-  const getGroupedKeys = (keys, groupKey, keyFieldName) => {
-    groups.foreach(group => {
-      var subgroups = group.split(".");
-      subgroups.foreach(subgroup => {
-        keys.fiter(key => key)
-      })
-
-    })
-    return keys;
-  }
-
-
-
-
-  const removeIrrelevantChildren = (keys, groupKey) => {
-
-  }
-  const getGroupedColumns = () => {
-    let colNames = [],
-      groupedColumns = [],
-      groupIndex = null;
-
-    for (let i = 0; i < grid.columnCount(); i++) {
-      groupIndex = grid.columnOption(i, "groupIndex")
-      if (groupIndex > -1) {
-        groupedColumns.push({
-          dataField: grid.columnOption(i, "dataField"),
-          groupIndex
-        });
-      }
-    }
-
-    groupedColumns.sort((a, b) => (a.groupIndex > b.groupIndex) ? 1 : -1)
-    groupedColumns.forEach(col => {
-      colNames.push(col.dataField);
-    })
-    return colNames;
-  }
-
-  const checkIfKeysAreSelected = function (currentKeys, selectedKeys) {
-    let count = 0;
-
-    if (selectedKeys.length === 0) return false;
-    for (var i = 0; i < currentKeys.length; i++) {
-      var keyValue = currentKeys[i];
-      if (selectedKeys.indexOf(keyValue) > -1)
-        // key is not selected
-        count++;
-    }
-    if (count === 0) return false;
-    if (currentKeys.length === count) return true;
-    else return undefined;
-  };
-
   const getCountOfItems = (topItem) => {
     let count = 0;
     if (topItem.items) {
@@ -229,8 +129,6 @@ function App() {
     } = props;
 
     let keys = getAllItems(props.data)
-    //if(props.data)
-    //console.log("keys", keys);
     console.log("selected", component.getSelectedRowKeys())
     let checked = checkIfChildrenAreSelected(keys, component.getSelectedRowKeys(), value, keyExpr);
     let groupText = getGroupText(
@@ -248,15 +146,6 @@ function App() {
     };
     return <GroupTemplate {...props} />;
   };
-/*
-
-  if (topItem.length) {
-    count += topItem.length;
-  } else {
-    if (!topItem.key)
-      count++;
-  }
-*/
 
   const recursiveSelect = (topItem) => {
     console.log("topItem",topItem);
@@ -266,8 +155,6 @@ function App() {
       let toSelect = topItem.items.filter(x => x.ProductID !== undefined).map(x => x.ProductID);
       console.log("toSelect",toSelect);
       idsToSelect = [...idsToSelect, ...toSelect];
-      //grid.current._instance.selectRows(toSelect, true);
-
       console.log("toSelect", toSelect)
 
       for (let o = 0; o < topItem.items.length; o++) {
@@ -276,7 +163,6 @@ function App() {
 
     }else if (topItem.ProductID){
       idsToSelect = [...idsToSelect, ...[topItem.ProductID]];
-      //grid.current._instance.selectRows([topItem.ProductID],true);
     }else if(topItem.length){
       for (let o = 0; o < topItem.length; o++) {
         idsToSelect = [...idsToSelect, ...recursiveSelect(topItem[o])];
@@ -295,8 +181,6 @@ function App() {
     }
     if (args.value) {
       let idsToSelect = grid.getSelectedRowKeys();
-      //grid.selectRows(keys.map(x => x.ProductID ? x.ProductID : x.key)); 
-      
       if(keys.length){
         for (let o = 0; o < keys.length; o++) {
           console.log(o);
@@ -312,10 +196,8 @@ function App() {
       grid.selectRows(idsToSelect);
     }
     else { 
-      //grid.deselectRows(keys.map(x => x.ProductID ? x.ProductID : x.key)); 
       let idsToDeselect = [];
-      //grid.selectRows(keys.map(x => x.ProductID ? x.ProductID : x.key)); 
-      
+
       if(keys.length){
         for (let o = 0; o < keys.length; o++) {
           console.log(o);
@@ -330,7 +212,6 @@ function App() {
       console.log("idsToSelect", idsToDeselect)
       grid.deselectRows(idsToDeselect);
     }
-   // onSelectionChanged();
   };
 
 
