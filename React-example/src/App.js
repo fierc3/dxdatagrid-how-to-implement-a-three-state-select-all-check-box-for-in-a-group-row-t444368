@@ -129,7 +129,6 @@ function App() {
     } = props;
 
     let keys = getAllItems(props.data)
-    console.log("selected", component.getSelectedRowKeys())
     let checked = checkIfChildrenAreSelected(keys, component.getSelectedRowKeys(), value, keyExpr);
     let groupText = getGroupText(
       column,
@@ -148,14 +147,11 @@ function App() {
   };
 
   const recursiveSelect = (topItem) => {
-    console.log("topItem",topItem);
     let idsToSelect = [];
     if (topItem.items) {
       //select items
       let toSelect = topItem.items.filter(x => x.ProductID !== undefined).map(x => x.ProductID);
-      console.log("toSelect",toSelect);
       idsToSelect = [...idsToSelect, ...toSelect];
-      console.log("toSelect", toSelect)
 
       for (let o = 0; o < topItem.items.length; o++) {
         idsToSelect = [...idsToSelect, ...recursiveSelect(topItem.items[o])];
@@ -168,14 +164,11 @@ function App() {
         idsToSelect = [...idsToSelect, ...recursiveSelect(topItem[o])];
       }
     }
-    console.log("recursiveIds",idsToSelect)
     return idsToSelect;
   }
 
 
   const onValueChanged = (args, grid, keys) => {
-    console.log("keys",keys)
-
     if (args.event === undefined) {
       return;
     }
@@ -183,16 +176,12 @@ function App() {
       let idsToSelect = grid.getSelectedRowKeys();
       if(keys.length){
         for (let o = 0; o < keys.length; o++) {
-          console.log(o);
-          console.log("keys2",keys)
-          console.log("key",keys[o])
           idsToSelect = [...idsToSelect, ...recursiveSelect(keys[o])];
         }
 
       }else{
         idsToSelect = [...idsToSelect,...recursiveSelect(keys)];
       }
-      console.log("idsToSelect", idsToSelect)
       grid.selectRows(idsToSelect);
     }
     else { 
@@ -200,16 +189,12 @@ function App() {
 
       if(keys.length){
         for (let o = 0; o < keys.length; o++) {
-          console.log(o);
-          console.log("keys2",keys)
-          console.log("key",keys[o])
           idsToDeselect = [...idsToDeselect, ...recursiveSelect(keys[o])];
         }
 
       }else{
         idsToDeselect = [...idsToDeselect,...recursiveSelect(keys)];
       }
-      console.log("idsToSelect", idsToDeselect)
       grid.deselectRows(idsToDeselect);
     }
   };
