@@ -72,7 +72,7 @@ function App() {
     }
     for (var i = 0; i < items.length; i++) {
       var keyValue = items[i];
-      if (selectedKeys.indexOf(keyValue.ProductID) > -1) {
+      if (selectedKeys.indexOf(keyValue[keyExpr]) > -1) {
         count++;
       }
 
@@ -150,15 +150,15 @@ function App() {
     let idsToSelect = [];
     if (topItem.items) {
       //select items
-      let toSelect = topItem.items.filter(x => x.ProductID !== undefined).map(x => x.ProductID);
+      let toSelect = topItem.items.filter(x => x[keyExpr] !== undefined).map(x => x[keyExpr]);
       idsToSelect = [...idsToSelect, ...toSelect];
 
       for (let o = 0; o < topItem.items.length; o++) {
         idsToSelect = [...idsToSelect, ...recursiveSelect(topItem.items[o])];
       }
 
-    }else if (topItem.ProductID){
-      idsToSelect = [...idsToSelect, ...[topItem.ProductID]];
+    }else if (topItem[keyExpr]){
+      idsToSelect = [...idsToSelect, ...[topItem[keyExpr]]];
     }else if(topItem.length){
       for (let o = 0; o < topItem.length; o++) {
         idsToSelect = [...idsToSelect, ...recursiveSelect(topItem[o])];
